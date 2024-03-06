@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace PetOwners.Models;
+namespace pet_hotel.Models;
 
 public class PetOwners
 {
@@ -10,7 +10,10 @@ public class PetOwners
 
     [Required]
     public string name { get; set; }
-    r   
-    [EmailAddressAttribute]
- public string EmailAdd { get; set; }
+
+    [Required]
+    [EmailAddress]
+    public string emailAddress { get; set; }
+
+    public int petCount {get; set;}
 }
