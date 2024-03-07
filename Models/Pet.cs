@@ -39,7 +39,7 @@ public class Pet
     public PetColor color { get; set; }
 
     [Required]
-    public DateTime chekedInAt {get; set;}
+    public DateTime checkedInAt {get; set;}
 
     [Required]
     public int petOwnerId {get; set;}
@@ -47,5 +47,7 @@ public class Pet
     [Required]
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public PetBreed breed { get; set; }
+
+    public PetOwners OwnedBy { get; set; }
 
 }

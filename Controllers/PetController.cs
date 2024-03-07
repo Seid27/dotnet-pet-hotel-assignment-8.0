@@ -91,7 +91,7 @@ public class PetController : ControllerBase
             return NotFound();
         }
         
-        pet.chekedInAt = DateTime.Now;
+        pet.checkedInAt = DateTime.Now;
 
         context.Pet.Update(pet);
         context.SaveChanges();
@@ -110,7 +110,7 @@ public class PetController : ControllerBase
             return NotFound();
         }
 
-        pet.chekedInAt = DateTime.MinValue;
+        pet.checkedInAt = DateTime.MinValue;
 
         context.Pet.Update(pet);
         context.SaveChanges();
