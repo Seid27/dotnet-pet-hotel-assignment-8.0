@@ -51,7 +51,7 @@ class PetsTable extends Component {
                 <td>{pet.petBreed}</td>
                 <td>{pet.petColor}</td>
                 <td>
-                  {pet.checkedInAt !== "0001-01-01T00:00:00"
+                  {pet.checkedInAt !== "0001-"
                     ? moment.utc(pet.checkedInAt).local().calendar()
                     : "Not Checked In"}
                 </td>

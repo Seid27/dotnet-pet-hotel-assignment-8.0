@@ -90,9 +90,8 @@ public class PetController : ControllerBase
         {
             return NotFound();
         }
-
-        DateTime localDate = DateTime.Now;
-        pet.chekedInAt = localDate;
+        
+        pet.chekedInAt = DateTime.Now;
 
         context.Pet.Update(pet);
         context.SaveChanges();
@@ -101,11 +100,23 @@ public class PetController : ControllerBase
     }
 
 
-    // [HttpPut("{petId}/checkout")] // CHECK A PET OUT BY ID
+    [HttpPut("{petId}/checkout")] // CHECK A PET OUT BY ID
 
-    // public IActionResult CheckOutPet(int petId){
-    //     Pet pet = context.Pet.F
-    // }
+    public IActionResult CheckOutPet(int petId){
+        Pet pet = context.Pet.Find(petId);
+        
+        if (pet == null)
+        {
+            return NotFound();
+        }
+
+        pet.chekedInAt = DateTime.MinValue;
+
+        context.Pet.Update(pet);
+        context.SaveChanges();
+
+        return Ok();
+    }
 
 
 }
