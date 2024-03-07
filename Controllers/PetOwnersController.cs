@@ -69,7 +69,21 @@ public class PetOwnersController : ControllerBase
         return Ok();
     }
 
-    // [HttpDelete("{petOwnerId}")] // DELETE A PETOWNER BY ID
+    [HttpDelete("{petOwnerId}")] // DELETE A PETOWNER BY ID
+
+    public IActionResult DeletePetOwner(int petOwnerId)
+    {
+        PetOwners petOwner = _c.PetOwners.Find(petOwnerId);
+        if (petOwnerId != petOwner.id)
+        {
+            return BadRequest();
+        }
+
+        _c.PetOwners.Remove(petOwner);
+        _c.SaveChanges();
+        
+        return NoContent();
+    }
 
 
 }
