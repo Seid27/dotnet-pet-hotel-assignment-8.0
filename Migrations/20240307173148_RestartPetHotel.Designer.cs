@@ -12,8 +12,8 @@ using pet_hotel.Models;
 namespace pet_hotel_7._0.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240307161438_PetHotelUpdate")]
-    partial class PetHotelUpdate
+    [Migration("20240307173148_RestartPetHotel")]
+    partial class RestartPetHotel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -18,6 +18,7 @@ public class PetOwners
     [JsonIgnore]
     public ICollection<Pet> Pets { get; set; }
 
+    [NotMapped]
     public int petCount
     {
         get
