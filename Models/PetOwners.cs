@@ -15,5 +15,14 @@ public class PetOwners
     [EmailAddress]
     public string emailAddress { get; set; }
 
-    public int petCount {get; set;}
+    [JsonIgnore]
+    public ICollection<Pet> Pets { get; set; }
+
+    public int petCount
+    {
+        get
+        {
+            return (this.Pets != null) ? this.Pets.Count : 0;
+        }
+    }
 }
