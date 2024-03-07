@@ -49,7 +49,25 @@ public class PetOwnersController : ControllerBase
 
     
 
-    // [HttpPut("{petOwnerId}")] // UPDATE A PETOWNER BY ID
+    [HttpPut("{petOwnerId}")] // UPDATE A PETOWNER BY ID
+    public IActionResult UpdatePetOwner(int petOwnerId, PetOwners PetOwners)
+    {
+        if (petOwnerId != PetOwners.id)
+        {
+            return BadRequest();
+        }
+
+        bool ExistingPetOwner = _c.PetOwners.Any(p => p.id == petOwnerId);
+
+        if (!ExistingPetOwner) {
+            return NotFound();
+        }
+
+        _c.PetOwners.Update(PetOwners);
+        _c.SaveChanges();
+
+        return Ok();
+    }
 
     // [HttpDelete("{petOwnerId}")] // DELETE A PETOWNER BY ID
 
