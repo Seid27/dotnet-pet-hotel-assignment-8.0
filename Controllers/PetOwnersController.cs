@@ -37,7 +37,17 @@ public class PetOwnersController : ControllerBase
         return Ok(PetOwners);
     }
 
-    // [HttpPost] // ADD A PET OWNER
+    [HttpPost] // POST new Pet Owner
+    
+    public IActionResult AddNewPetOwner(PetOwners petOwner)
+    {
+        _c.PetOwners.Add(petOwner);
+        _c.SaveChanges();
+
+        return CreatedAtAction(nameof(GetPetOwnerById), new { id = petOwner.id}, petOwner);
+    }
+
+    
 
     // [HttpPut("{petOwnerId}")] // UPDATE A PETOWNER BY ID
 
