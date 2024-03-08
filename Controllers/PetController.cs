@@ -18,18 +18,18 @@ public class PetController : ControllerBase
 
     [HttpGet] // GET ALL PETS
 
-    public IActionResult getPets()
+    public IActionResult GetPets()
     {
-        List<Pet> pets = context.Pet.Include(pet => pet.OwnedBy).ToList();
+        List<Pet> Pets = context.Pet.Include(Pet => Pet.PetOwner).ToList();
 
-        return Ok(pets);
+        return Ok(Pets);
     }
 
-    [HttpGet("{petId}")] // GET A PET BY ID
+    [HttpGet("{PetId}")] // GET A PET BY ID
 
-    public IActionResult GetPetById(int petId)
+    public IActionResult GetPetById(int PetId)
     {
-        Pet Pet = context.Pet.Include(p => p.petOwnerId).FirstOrDefault(p => p.id == petId);
+        Pet Pet = context.Pet.Include(p => p.PetOwnerId).FirstOrDefault(p => p.Id == PetId);
 
         if (Pet is null)
         {
@@ -39,61 +39,46 @@ public class PetController : ControllerBase
     }
 
     [HttpPost] // POST A PET
-    public IActionResult AddPet(Pet pet)
+    public IActionResult AddPet(Pet Pet)
     {
 
-        // PetOwners OwnedBy = context.PetOwners.Find(pet.petOwnerId);
-        // Console.WriteLine(OwnedBy.name);
+        PetOwner PetOwner = context.PetOwner.Find(Pet.PetOwnerId);
+        // Console.WriteLine(PetOwner.name);
 
-        // if (OwnedBy is null)
-        // {
-        //     return NotFound();
-        // }
+        if (PetOwner is null)
+        {
+            return NotFound();
+        }
 
-        // context.Pet.Add(pet);
-        // context.SaveChanges();
-        // Pet CreatedPet = context.Pet.OrderByDescending(p => p.id).Include(p => p.OwnedBy).FirstOrDefault();
-        // Console.WriteLine(CreatedPet.id);
-        // return CreatedAtAction(nameof(GetPetById), new { Id = pet.id }, CreatedPet);
-
-          
-    PetOwners petOwners = context.PetOwners.Find(pet.OwnedBy);
-
-    if (petOwners is null)
-    {
-      return NotFound();
-    }
-
-    context.Pet.Add(pet);
-    context.SaveChanges();
-    Console.WriteLine(pet);
-
-    return CreatedAtAction(nameof(GetPetById), new { Id = pet.id }, pet);
+        context.Pet.Add(Pet);
+        context.SaveChanges();
+ 
+        return CreatedAtAction(nameof(GetPetById), new { Id = Pet.Id }, Pet);
   
     }
 
-    [HttpPut("{petId}")] // EDIT A PET BY ID
-    public IActionResult updatePet(int petId, Pet pet)
+    [HttpPut("{PetId}")] // EDIT A PET BY ID
+    public IActionResult UpdatePet(int PetId, Pet Pet)
     {
-        if (petId != pet.id)
+        if (PetId != Pet.Id)
         {
             return BadRequest();
         }
-        bool ExistingPet = context.Pet.Any(p => p.id == petId);
+        bool ExistingPet = context.Pet.Any(p => p.Id == PetId);
         if (ExistingPet is false)
         {
             return NotFound();
         }
 
-        context.Pet.Update(pet);
+        context.Pet.Update(Pet);
         context.SaveChanges();
         return NoContent();
     }
 
-    [HttpDelete("{petId}")] // DELETE PET BY ID
-    public IActionResult DeletePet(int petId)
+    [HttpDelete("{PetId}")] // DELETE PET BY ID
+    public IActionResult DeletePet(int PetId)
     {
-        Pet Pet = context.Pet.Find(petId);
+        Pet Pet = context.Pet.Find(PetId);
 
         if (Pet is null)
         {
@@ -108,18 +93,18 @@ public class PetController : ControllerBase
 
     [HttpPut("{petId}/checkin")] // CHECK A PET IN BY ID
 
-    public IActionResult CheckInPet(int petId)
+    public IActionResult CheckInPet(int PetId)
     {
-        Pet pet = context.Pet.Find(petId);
+        Pet Pet = context.Pet.Find(PetId);
 
-        if (pet == null)
+        if (Pet == null)
         {
             return NotFound();
         }
         
-        pet.checkedInAt = DateTime.Now;
+        Pet.CheckedInAt = DateTime.Now;
 
-        context.Pet.Update(pet);
+        context.Pet.Update(Pet);
         context.SaveChanges();
 
         return Ok();
@@ -128,17 +113,17 @@ public class PetController : ControllerBase
 
     [HttpPut("{petId}/checkout")] // CHECK A PET OUT BY ID
 
-    public IActionResult CheckOutPet(int petId){
-        Pet pet = context.Pet.Find(petId);
+    public IActionResult CheckOutPet(int PetId){
+        Pet Pet = context.Pet.Find(PetId);
         
-        if (pet == null)
+        if (Pet == null)
         {
             return NotFound();
         }
 
-        pet.checkedInAt = DateTime.MinValue;
+        Pet.CheckedInAt = DateTime.MinValue;
 
-        context.Pet.Update(pet);
+        context.Pet.Update(Pet);
         context.SaveChanges();
 
         return Ok();

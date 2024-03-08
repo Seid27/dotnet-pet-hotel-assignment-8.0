@@ -18,16 +18,16 @@ public class PetOwnersController : ControllerBase
     [HttpGet] // GET ALL
     public IActionResult GetPetOwners()
     {
-        List<PetOwners> petOwners = _c.PetOwners.Include(petOwner=> petOwner.Pets).ToList();
+        List<PetOwner> PetOwners = _c.PetOwner.Include(PetOwner=> PetOwner.Pets).ToList();
 
-        return Ok(petOwners);
+        return Ok(PetOwners);
     }
 
 
-    [HttpGet("{petOwnerId}")] // GET ONE BY ID
-    public IActionResult GetPetOwnerById(int petOwnerId)
+    [HttpGet("{PetOwnerId}")] // GET ONE BY ID
+    public IActionResult GetPetOwnerById(int PetOwnerId)
     {
-        PetOwners PetOwners = _c.PetOwners.Find(petOwnerId);
+        PetOwner PetOwners = _c.PetOwner.Find(PetOwnerId);
 
         if (PetOwners is null)
         {
@@ -39,47 +39,47 @@ public class PetOwnersController : ControllerBase
 
     [HttpPost] // POST new Pet Owner
     
-    public IActionResult AddNewPetOwner(PetOwners petOwner)
+    public IActionResult AddNewPetOwner(PetOwner PetOwner)
     {
-        _c.PetOwners.Add(petOwner);
+        _c.PetOwner.Add(PetOwner);
         _c.SaveChanges();
 
-        return CreatedAtAction(nameof(GetPetOwnerById), new { id = petOwner.id}, petOwner);
+        return CreatedAtAction(nameof(GetPetOwnerById), new { id = PetOwner.Id}, PetOwner);
     }
 
     
 
-    [HttpPut("{petOwnerId}")] // UPDATE A PETOWNER BY ID
-    public IActionResult UpdatePetOwner(int petOwnerId, PetOwners PetOwners)
+    [HttpPut("{PetOwnerId}")] // UPDATE A PETOWNER BY ID
+    public IActionResult UpdatePetOwner(int PetOwnerId, PetOwner PetOwners)
     {
-        if (petOwnerId != PetOwners.id)
+        if (PetOwnerId != PetOwners.Id)
         {
             return BadRequest();
         }
 
-        bool ExistingPetOwner = _c.PetOwners.Any(p => p.id == petOwnerId);
+        bool ExistingPetOwner = _c.PetOwner.Any(p => p.Id == PetOwnerId);
 
         if (!ExistingPetOwner) {
             return NotFound();
         }
 
-        _c.PetOwners.Update(PetOwners);
+        _c.PetOwner.Update(PetOwners);
         _c.SaveChanges();
 
         return Ok();
     }
 
-    [HttpDelete("{petOwnerId}")] // DELETE A PETOWNER BY ID
+    [HttpDelete("{PetOwnerId}")] // DELETE A PETOWNER BY ID
 
-    public IActionResult DeletePetOwner(int petOwnerId)
+    public IActionResult DeletePetOwner(int PetOwnerId)
     {
-        PetOwners petOwner = _c.PetOwners.Find(petOwnerId);
-        if (petOwnerId != petOwner.id)
+        PetOwner PetOwner = _c.PetOwner.Find(PetOwnerId);
+        if (PetOwnerId != PetOwner.Id)
         {
             return BadRequest();
         }
 
-        _c.PetOwners.Remove(petOwner);
+        _c.PetOwner.Remove(PetOwner);
         _c.SaveChanges();
         
         return NoContent();
