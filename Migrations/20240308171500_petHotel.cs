@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace pet_hotel_7._0.Migrations
 {
     /// <inheritdoc />
-    public partial class petHotels3 : Migration
+    public partial class petHotel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,7 +35,7 @@ namespace pet_hotel_7._0.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     PetBreed = table.Column<int>(type: "integer", nullable: false),
                     PetColor = table.Column<int>(type: "integer", nullable: false),
-                    CheckedInAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CheckedInAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     PetOwnerId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

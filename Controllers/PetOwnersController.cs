@@ -7,10 +7,10 @@ namespace Pet_Hotel.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 
-public class PetOwnersController : ControllerBase
+public class petownersController : ControllerBase
 {
     private readonly ApplicationContext _c;
-    public PetOwnersController(ApplicationContext context)
+    public petownersController(ApplicationContext context)
     {
         _c = context;
     }
@@ -44,7 +44,7 @@ public class PetOwnersController : ControllerBase
         _c.PetOwner.Add(PetOwner);
         _c.SaveChanges();
 
-        return CreatedAtAction(nameof(GetPetOwnerById), new { id = PetOwner.Id}, PetOwner);
+        return CreatedAtAction(nameof(GetPetOwnerById), new { Id = PetOwner.Id}, PetOwner);
     }
 
     
@@ -66,7 +66,9 @@ public class PetOwnersController : ControllerBase
         _c.PetOwner.Update(PetOwners);
         _c.SaveChanges();
 
-        return Ok();
+        PetOwner UpdatedPetOwner = _c.PetOwner.Find(PetOwnerId);
+
+        return Ok(UpdatedPetOwner);
     }
 
     [HttpDelete("{PetOwnerId}")] // DELETE A PETOWNER BY ID

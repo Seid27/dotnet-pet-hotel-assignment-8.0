@@ -7,10 +7,10 @@ namespace Pet_Hotel.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 
-public class PetController : ControllerBase
+public class PetsController : ControllerBase
 {
     private readonly ApplicationContext context;
-    public PetController(ApplicationContext c)
+    public PetsController(ApplicationContext c)
     {
         context = c;
     }
@@ -72,7 +72,9 @@ public class PetController : ControllerBase
 
         context.Pet.Update(Pet);
         context.SaveChanges();
-        return NoContent();
+
+        Pet UpdatedPet = context.Pet.Find(PetId);
+        return Ok(UpdatedPet);
     }
 
     [HttpDelete("{PetId}")] // DELETE PET BY ID
@@ -102,12 +104,13 @@ public class PetController : ControllerBase
             return NotFound();
         }
         
-        Pet.CheckedInAt = DateTime.Now;
+        Pet.CheckedInAt = DateTime.UtcNow;
 
         context.Pet.Update(Pet);
         context.SaveChanges();
 
-        return Ok();
+       
+        return Ok(Pet);
     }
 
 
@@ -121,12 +124,13 @@ public class PetController : ControllerBase
             return NotFound();
         }
 
-        Pet.CheckedInAt = DateTime.MinValue;
+        Pet.CheckedInAt = null;
 
         context.Pet.Update(Pet);
         context.SaveChanges();
 
-        return Ok();
+        Pet UpdatedPet = context.Pet.Find(PetId);
+        return Ok(UpdatedPet);
     }
 
 
