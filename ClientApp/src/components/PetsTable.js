@@ -51,13 +51,13 @@ class PetsTable extends Component {
                 <td>{pet.petBreed}</td>
                 <td>{pet.petColor}</td>
                 <td>
-                  {pet.checkedInAt !== "0001-"
+                  {pet.checkedInAt !== null
                     ? moment.utc(pet.checkedInAt).local().calendar()
                     : "Not Checked In"}
                 </td>
                 <td>{pet.petOwner.name}</td>
                 <td>
-                  {pet.checkedInAt !== "0001-01-01T00:00:00" ? (
+                  {pet.checkedInAt !== null ? (
                     <button
                       onClick={() => this.checkOut(pet.id)}
                       className="btn btn-sm btn-info ml-1 mr-1"
