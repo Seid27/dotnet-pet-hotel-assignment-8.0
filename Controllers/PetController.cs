@@ -20,7 +20,7 @@ public class PetController : ControllerBase
 
     public IActionResult getPets()
     {
-        List<Pet> pets = context.Pet.Include(pet => pet.petOwnerId).ToList();
+        List<Pet> pets = context.Pet.Include(pet => pet.OwnedBy).ToList();
 
         return Ok(pets);
     }
@@ -41,13 +41,39 @@ public class PetController : ControllerBase
     [HttpPost] // POST A PET
     public IActionResult AddPet(Pet pet)
     {
-        context.Pet.Add(pet);
-        context.SaveChanges();
-        return CreatedAtAction(nameof(GetPetById), new { Id = pet.id }, pet);
+
+        // PetOwners OwnedBy = context.PetOwners.Find(pet.petOwnerId);
+        // Console.WriteLine(OwnedBy.name);
+
+        // if (OwnedBy is null)
+        // {
+        //     return NotFound();
+        // }
+
+        // context.Pet.Add(pet);
+        // context.SaveChanges();
+        // Pet CreatedPet = context.Pet.OrderByDescending(p => p.id).Include(p => p.OwnedBy).FirstOrDefault();
+        // Console.WriteLine(CreatedPet.id);
+        // return CreatedAtAction(nameof(GetPetById), new { Id = pet.id }, CreatedPet);
+
+          
+    PetOwners petOwners = context.PetOwners.Find(pet.OwnedBy);
+
+    if (petOwners is null)
+    {
+      return NotFound();
+    }
+
+    context.Pet.Add(pet);
+    context.SaveChanges();
+    Console.WriteLine(pet);
+
+    return CreatedAtAction(nameof(GetPetById), new { Id = pet.id }, pet);
+  
     }
 
     [HttpPut("{petId}")] // EDIT A PET BY ID
-    public IActionResult update(int petId, Pet pet)
+    public IActionResult updatePet(int petId, Pet pet)
     {
         if (petId != pet.id)
         {

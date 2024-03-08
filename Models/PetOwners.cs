@@ -4,26 +4,26 @@ using System.Text.Json.Serialization;
 
 namespace pet_hotel.Models;
 
-public class PetOwners
+public class PetOwner
 {
-    public int id { get; set; }
-
-    [Required]
-    public string name { get; set; }
-
+    public int Id { get; set; }
     [Required]
     [EmailAddress]
-    public string emailAddress { get; set; }
+    public string Email { get; set; }
+
+    [Required]
+    public string Name { get; set; }
+
 
     [JsonIgnore]
     public ICollection<Pet> Pets { get; set; }
 
     [NotMapped]
-    public int petCount
+    public int PetCount
     {
         get
         {
-            return (this.Pets != null) ? this.Pets.Count : 0;
+            return this.Pets != null ? this.Pets.Count : 0;
         }
     }
 }

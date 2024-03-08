@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace pet_hotel.Models;
 
 // Put enums here so class can access them later
-public enum PetBreed
+public enum PetBreedType
 {
     Shepard,
     Poodle,
@@ -19,7 +19,7 @@ public enum PetBreed
 
 
 
-public enum PetColor
+public enum PetColorType
 {
     White,
     Black,
@@ -29,25 +29,28 @@ public enum PetColor
 }
 public class Pet
 {
-    public int id { get; set; }
+    public int Id { get; set; }
     
     [Required]
-    public string name {get; set;}
+    public string Name {get; set;}
 
     [Required]
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public PetColor color { get; set; }
-
-    [Required]
-    public DateTime checkedInAt {get; set;}
-
-    [Required]
-    public int petOwnerId {get; set;}
+    public PetBreedType PetBreed { get; set; }
 
     [Required]
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public PetBreed breed { get; set; }
+    public PetColorType PetColor { get; set; }
 
-    public PetOwners OwnedBy { get; set; }
+    [Required]
+    public DateTime? CheckedInAt {get; set;}
+
+     public PetOwner PetOwner { get; set; }
+     
+    [Required]
+    public int PetOwnerId {get; set;}
+
+
+   
 
 }
