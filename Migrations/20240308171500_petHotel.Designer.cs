@@ -12,8 +12,8 @@ using pet_hotel.Models;
 namespace pet_hotel_7._0.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240307153548_PetHotel")]
-    partial class PetHotel
+    [Migration("20240308171500_petHotel")]
+    partial class petHotel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,55 +27,70 @@ namespace pet_hotel_7._0.Migrations
 
             modelBuilder.Entity("pet_hotel.Models.Pet", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("breed")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("chekedInAt")
+                    b.Property<DateTime?>("CheckedInAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("color")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("petOwnerId")
+                    b.Property<int>("PetBreed")
                         .HasColumnType("integer");
 
-                    b.HasKey("id");
+                    b.Property<int>("PetColor")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PetOwnerId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PetOwnerId");
 
                     b.ToTable("Pet");
                 });
 
-            modelBuilder.Entity("pet_hotel.Models.PetOwners", b =>
+            modelBuilder.Entity("pet_hotel.Models.PetOwner", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("emailAddress")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("petCount")
-                        .HasColumnType("integer");
+                    b.HasKey("Id");
 
-                    b.HasKey("id");
+                    b.ToTable("PetOwner");
+                });
 
-                    b.ToTable("PetOwners");
+            modelBuilder.Entity("pet_hotel.Models.Pet", b =>
+                {
+                    b.HasOne("pet_hotel.Models.PetOwner", "PetOwner")
+                        .WithMany("Pets")
+                        .HasForeignKey("PetOwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PetOwner");
+                });
+
+            modelBuilder.Entity("pet_hotel.Models.PetOwner", b =>
+                {
+                    b.Navigation("Pets");
                 });
 #pragma warning restore 612, 618
         }
